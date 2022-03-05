@@ -2,6 +2,8 @@
   <h2>{{ $store.state.name }}</h2>
   <router-link to="/login">登录</router-link>
   <router-link to="/main">首页</router-link>
+  <el-button type="primary">主要</el-button>
+  <el-button type="danger">危险</el-button>
   <router-view />
 </template>
 
