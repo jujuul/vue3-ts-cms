@@ -4,11 +4,28 @@ import {
   ElAlert,
   ElAside,
   ElButton,
+  ElCheckbox,
+  ElForm,
   ElFormItem,
   ElInput,
-  ElRadio
+  ElLink,
+  ElRadio,
+  ElTabPane,
+  ElTabs
 } from 'element-plus'
-const components = [ElAlert, ElAside, ElButton, ElFormItem, ElInput, ElRadio]
+const components = [
+  ElAlert,
+  ElAside,
+  ElButton,
+  ElCheckbox,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElLink,
+  ElRadio,
+  ElTabPane,
+  ElTabs
+]
 export default function (app: App): void {
   for (const component of components) {
     app.component(component.name, component)
