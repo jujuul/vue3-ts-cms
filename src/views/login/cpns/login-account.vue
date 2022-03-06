@@ -14,19 +14,29 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { rules } from '../config/account-config'
 import { ElForm } from 'element-plus'
+import localCache from '@/utils/cache'
 export default defineComponent({
   setup() {
     const account = reactive({
-      name: '',
-      password: ''
+      name: localCache.getCache('name') ?? '',
+      password: localCache.getCache('password') ?? ''
     })
 
     const formRef = ref<InstanceType<typeof ElForm>>()
 
-    const loginAction = () => {
+    const loginAction = (iskeepPassword: boolean) => {
       formRef.value?.validate((valid) => {
         if (valid) {
-          console.log()
+          // 1. 判断是否需要记住密码
+          if (iskeepPassword) {
+            // 本地缓存
+            localCache.setCache('name', account.name)
+            localCache.setCache('password', account.password)
+          } else {
+            localCache.deleteCache('name')
+            localCache.deleteCache('password')
+          }
+          // 2. 开始进行登录验证
         }
       })
     }
