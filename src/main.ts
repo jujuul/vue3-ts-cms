@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 import { globalRegister } from './global'
+import 'normalize.css'
+import './assets/css/index.less'
 import zxRequest from './service'
 import App from './App.vue'
 import router from './router'
