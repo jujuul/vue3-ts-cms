@@ -22,6 +22,7 @@ zxRequest.request({
       return res
     }
   }
+  // showLoading: false
 })
 
 zxRequest.request({

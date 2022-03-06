@@ -8,4 +8,5 @@ export interface ZXRequestInterceptors {
 
 export interface ZXRequestConfig extends AxiosRequestConfig {
   interceptors?: ZXRequestInterceptors
+  showLoading?: boolean
 }
