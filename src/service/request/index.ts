@@ -43,8 +43,15 @@ class ZXRequest {
     )
   }
   request(config: ZXRequestConfig): void {
+    if (config.interceptors?.requestInterceptor) {
+      config = config.interceptors.requestInterceptor(config)
+    }
+
     this.instance.request(config).then((res) => {
       console.log(res)
+      if (config.interceptors?.responseInterceptor) {
+        res = config.interceptors.responseInterceptor(res)
+      }
       return res
     })
   }
