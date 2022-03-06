@@ -25,7 +25,19 @@ zxRequest.request({
   // showLoading: false
 })
 
-zxRequest.request({
-  url: '/home/multidata',
-  method: 'GET'
-})
+interface DataType {
+  data: any
+  returnCode: string
+  success: boolean
+}
+
+zxRequest
+  .request<DataType>({
+    url: '/home/multidata',
+    showLoading: false
+  })
+  .then((res) => {
+    console.log(res.data)
+    console.log(res.returnCode)
+    console.log(res.success)
+  })

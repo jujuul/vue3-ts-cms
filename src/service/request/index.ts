@@ -53,39 +53,54 @@ class ZXRequest {
         setTimeout(() => {
           this.loading?.close()
         }, 1000)
-        return res.data
+        return res
       },
       (err) => {
         return err
       }
     )
   }
-  request(config: ZXRequestConfig): void {
-    if (config.interceptors?.requestInterceptor) {
-      config = config.interceptors.requestInterceptor(config)
-    }
+  request<T>(config: ZXRequestConfig): Promise<T> {
+    return new Promise((resolve, reject) => {
+      if (config.interceptors?.requestInterceptor) {
+        config = config.interceptors.requestInterceptor(config)
+      }
 
-    if (config.showLoading === false) {
-      this.showLoading = config.showLoading
-    }
-
-    this.instance
-      .request(config)
-      .then((res) => {
-        console.log(res)
-        if (config.interceptors?.responseInterceptor) {
-          res = config.interceptors.responseInterceptor(res)
-        }
-        // 再将showloading设置为true，不然会影响下一次请求
-        this.showLoading = DEFAULT_LOADING
-        return res
-      })
-      .catch((err) => {
-        this.showLoading = DEFAULT_LOADING
-        return err
-      })
+      if (config.showLoading === false) {
+        this.showLoading = config.showLoading
+      }
+      this.instance
+        .request<any, T>(config)
+        .then((res) => {
+          if (config.interceptors?.responseInterceptor) {
+            res = config.interceptors.responseInterceptor(res)
+          }
+          // 再将showloading设置为true，不然会影响下一次请求
+          this.showLoading = DEFAULT_LOADING
+          resolve(res)
+        })
+        .catch((err) => {
+          this.showLoading = DEFAULT_LOADING
+          reject(err)
+        })
+    })
   }
-  // get() {}
+
+  get<T>(config: ZXRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+
+  post<T>(config: ZXRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' })
+  }
+
+  delete<T>(config: ZXRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' })
+  }
+
+  patch<T>(config: ZXRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH' })
+  }
 }
 
 export default ZXRequest
